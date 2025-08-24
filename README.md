@@ -1,1 +1,81 @@
-# Om
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Доступ к документу</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: #f4f4f4;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    input[type="password"] {
+      padding: 10px;
+      width: 220px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4a76a8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #365f87;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Введите пароль для доступа</h2>
+    <input type="password" id="password" placeholder="Пароль">
+    <br>
+    <button onclick="checkPassword()">Открыть</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    function checkPassword() {
+      const pass = document.getElementById("password").value;
+      const correctPass = "111"; // ← одинаковый пароль для всех
+      const docId = getQueryParam("doc");
+
+      // список PDF по номеру doc
+      const docs = {
+        "1": "https://drive.google.com/file/d/11U8FRXIUOhgAfc4bYC2jp0lYiKT3KcgD/view",
+      };
+
+      if (pass === correctPass) {
+        if (docs[docId]) {
+          window.location.href = docs[docId];
+        } else {
+          document.getElementById("error").innerText = "Документ не найден!";
+        }
+      } else {
+        document.getElementById("error").innerText = "Неверный пароль!";
+      }
+    }
+  </script>
+</body>
+</html>
